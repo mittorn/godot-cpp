@@ -210,7 +210,7 @@ if env['platform'] == 'linux' or env['platform'] == 'freebsd':
     if env['target'] == 'debug':
         env.Append(CCFLAGS=['-Og', '-g'])
     elif env['target'] == 'release':
-        env.Append(CCFLAGS=['-O3'])
+        env.Append(CCFLAGS=['-Os'])
 
     if env['bits'] == '64':
         env.Append(CCFLAGS=['-m64'])
@@ -218,6 +218,8 @@ if env['platform'] == 'linux' or env['platform'] == 'freebsd':
     elif env['bits'] == '32':
         env.Append(CCFLAGS=['-m32'])
         env.Append(LINKFLAGS=['-m32'])
+    env.Append(CCFLAGS=ARGUMENTS.get('COMMON_FLAGS', ''))
+    env.Append(LINKFLAGS=ARGUMENTS.get('COMMON_FLAGS', ''))
 
 elif env['platform'] == 'osx':
     # Use Clang on macOS by default
