@@ -42,7 +42,17 @@ def print_file_list(api_filepath, output_dir, headers=False, sources=False):
 def generate_bindings(api_filepath, use_template_get_node, output_dir="."):
     global classes
     with open(api_filepath) as api_file:
-        classes = json.load(api_file)
+        classes2 = json.load(api_file)
+    classes = []
+    if os.path.isfile("../classes_whitelist.json"):
+        f = open("../classes_whitelist.json")
+        classes_needed = json.load(f)
+        f.close()
+        for cls in classes2:
+            if cls['name'] in classes_needed:
+                classes.append(cls)
+    else:
+        classes = classes2
 
     icalls = set()
     include_gen_folder = Path(output_dir) / 'include' / 'gen'
